@@ -1,0 +1,124 @@
+﻿<h2>
+    Samples<a name="samples" href="#samples" title="#samples" class="anchor"></a>
+</h2>
+<h3>
+    The minimum<a name="the" href="#the" title="#the" class="anchor"></a>
+</h3>
+<p class="default">
+    To create a <em>drop zone</em> you need to have a basic element&nbsp;— such as a fieldset. It’s typically marked up in HTML and then retrieved by ID as in the example below. In this example, if you select or drop a file nothing will happen yet.<a name="the-1" href="#the-1" title="#the-1" class="anchor"></a>
+</p>
+<div class="fd-smp">
+    <dov class="code">
+        <figure class="js">
+            <figcaption>JS</figcaption>
+            <style type="text/css">
+                .format-js .string {
+                    color: blue;
+                }
+
+                .format-js .comment {
+                    color: #4D4D4D;
+                    font-style: italic;
+                }
+
+                .format-js .regexp {
+                    background: #FFE284;
+                    color: green;
+                }
+
+                .format-js .number {
+                    color: navy;
+                }
+
+                .format-js .keyword {
+                    font-weight: bold;
+                }
+            </style>
+<pre class="format format-js"><span class="comment inline">// We can deal with iframe uploads using this URL:</span>
+<span class="keyword">var</span> options = {iframe: {url: <span class="string block">'upload.php'</span>}}
+<span class="comment inline">// 'zone' is an ID but you can also give a DOM node:</span>
+<span class="keyword">var</span> zone = <span class="keyword">new</span> FileDrop(<span class="string block">'zone'</span>, options)
+
+<span class="comment inline">// Do something when a user chooses or drops a file:</span>
+zone.event(<span class="string block">'send'</span>, <span class="keyword">function</span> (files) {
+            <span class="comment inline">// FileList might contain multiple items.</span>
+  files.each(<span class="keyword">function</span> (file) {
+            <span class="comment inline">// Send the file:</span>
+    file.sendTo(<span class="string block">'upload.php'</span>)
+  })
+})
+</pre>
+
+        </figure>
+        <figure class="html">
+            <figcaption>HTML</figcaption>
+            <style type="text/css">
+                .format-xml .doctype {
+                    color: #3798BE;
+                }
+
+                .format-xml .xmldecl {
+                    font-weight: bold;
+                }
+
+                .format-xml .comment {
+                    color: #4D4D4D;
+                    font-style: italic;
+                }
+
+                .format-xml .tag {
+                    font-weight: bold;
+                    color: maroon
+                }
+
+                .format-xml .single {
+                    color: red;
+                }
+
+                .format-xml .string {
+                    color: blue;
+                }
+
+                .format-xml .attribute {
+                    font-weight: bold;
+                }
+
+                .format-xml .entity {
+                    color: navy;
+                }
+            </style>
+<pre class="format format-xml"><span class="comment block">&lt;!-- A FileDrop area. Can contain any text or elements, or be empty.
+     Can be of any HTML tag too, not necessary fieldset. --&gt;</span>
+&lt;<span class="tag inline">fieldset</span> <span class="attribute inline">id</span>=<span class="string inline">"zone"</span>&gt;
+  &lt;<span class="tag inline">legend</span>&gt;Drop a file inside...&lt;/<span class="tag inline">legend</span>&gt;
+  &lt;<span class="tag inline">p</span>&gt;Or click here to &lt;<span class="tag inline">em</span>&gt;Browse&lt;/<span class="tag inline">em</span>&gt;...&lt;/<span class="tag inline">p</span>&gt;
+&lt;/<span class="tag inline">fieldset</span>&gt;
+</pre>
+
+        </figure>
+
+    </dov>
+    <dov class="demo">
+        <!-- A FileDrop area. Can contain any text or elements, or be empty.
+             Can be of any HTML tag too, not necessary fieldset. -->
+        <div style="position: relative; overflow: hidden;">
+            <fieldset id="zone" class=" fd-zone">
+                <legend>Drop a file inside...</legend>
+                <div><iframe src="javascript:false" name="fd_1055" id="fd_1055" style="display: none;"></iframe><form method="post" enctype="multipart/form-data" target="fd_1055" style="position: relative;"><input type="hidden" name="fd-callback"><input type="file" name="fd-file" class=" fd-file"></form></div><p>Or click here to <em>Browse</em>...</p>
+            </fieldset>
+        </div>
+        <script type="text/javascript">
+    (function () {
+                try {
+                    var options = { iframe: { url: 'upload.php' } }
+                    var zone = new FileDrop('zone', options)
+                    zone.event('send', function (files) {
+                        files.each(function (file) {
+                            file.sendTo('upload.php')
+                        })
+                    })
+                } catch (e) { }
+            })()</script>
+    </dov>
+
+</div>
