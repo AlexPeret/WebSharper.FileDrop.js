@@ -5,8 +5,10 @@ open WebSharper.Sitelets
 open WebSharper.UI
 open WebSharper.UI.Server
 
-type EndPoint =
-    | [<EndPoint "/">] Samples
+open WebSharper.FileDropJsSamples.Config.Route
+
+//type EndPoint =
+//    | [<EndPoint "/">] Samples
 
 module Templating =
     open WebSharper.UI.Html
@@ -34,17 +36,49 @@ module Templating =
 
 module Site =
     open WebSharper.UI.Html
-    open WebSharper.FileDropJsSamples.Pages
+    open WebSharper.UI.Client
+    open WebSharper.FileDropJsSamples
+     
+    let private UploadHandler ctx =
+        let salvarCallback n m fs = 
+            System.Threading.Thread.Sleep(2000)
+            //Error [ "not implemented" ]
+            Ok "file saved"
 
-    let SamplesPage ctx =
-        Templating.Main ctx EndPoint.Samples "Samples" [
-            div [] [client <@ PageSamples.Main() @>]
-        ]
+        Server.UploadContent ctx salvarCallback
+    
+    [<JavaScript>]
+    let RouteClientPage () =
+        let router = InstallRouter()
+        let routeTo = Helpers.RouteTo router
+
+        let doc =
+            router.View
+            |> View.Map (fun endpoint -> 
+                match endpoint with
+                | EndPoint.Samples -> Pages.PageSamples.Main routeTo
+                | _ -> div [ ] [ text "not found" ]
+            )
+            |> Doc.EmbedView
+        doc
+
+
+    let LoadClientPage ctx endpoint title =
+        let body = client <@ RouteClientPage () @>
+        Templating.Main ctx endpoint title [ body ]
 
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx endpoint ->
+
             match endpoint with
-            | EndPoint.Samples -> SamplesPage ctx
-            //TODO: adicionar endpoints para upload e download
+            | EndPoint.Samples -> 
+                LoadClientPage ctx endpoint "Samples"
+
+            | EndPoint.PageError -> 
+                Templating.Main ctx EndPoint.PageError "Error Page" [
+                    div [] [ text "replace by error page" ]
+                ]
+
+            | UploadAttachment -> UploadHandler ctx
         )

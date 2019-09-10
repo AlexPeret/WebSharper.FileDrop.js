@@ -1,1 +1,1 @@
-<%@ Application Inherits="WebSharper.FileDrop.js.Samples.Global" %>
+<%@ Application Inherits="WebSharper.FileDropJsSamples.Global" %>
